@@ -141,6 +141,6 @@ func main() {
 	// fmt.Println(r)
 	// r = questions.TestConvertToLetterString1()
 	// fmt.Print(r)
-	questions.TestinStickers()
+	questions.TestMinStickers()
 
 }
