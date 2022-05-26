@@ -1,6 +1,7 @@
 package questions
 
 import (
+	"base"
 	"fmt"
 )
 
@@ -80,10 +81,35 @@ func dpLoadBag(q []int, v []int, cap int) (mv int) {
 	return
 }
 
+// 动态转移
+func dpLoadBag1(q []int, v []int, cap int) (mv int) {
+	n := len(q)
+	if q == nil || n != len(v) || cap < 1 {
+		return
+	}
+	anxiliary := make([]int, cap+1)
+	for i := 0; i < n; i++ {
+		for j := cap - q[i]; j >= 0; j-- {
+			anxiliary[j+q[i]] = base.Max(anxiliary[j+q[i]], v[i]+anxiliary[j])
+		}
+	}
+	return anxiliary[cap]
+}
+
 func TestLoadBag1() (r int) {
-	// r = dpLoadBag([]int{3, 2, 4, 7, 3, 1, 7}, []int{5, 6, 3, 19, 12, 4, 2}, 15)
-	// r = dpLoadBag([]int{3, 2, 4, 7}, []int{5, 6, 3, 19}, 11)
+	r = dpLoadBag([]int{3, 2, 4, 7, 3, 1, 7}, []int{5, 6, 3, 19, 12, 4, 2}, 15)
+	fmt.Println("最大价值为: ", r)
+	r = dpLoadBag([]int{3, 2, 4, 7}, []int{5, 6, 3, 19}, 11)
+	fmt.Println("最大价值为: ", r)
 	r = dpLoadBag([]int{3, 2, 40, 7, 3, 1, 7}, []int{5, 6, 300, 19, 12, 4, 2}, 15)
+	fmt.Println("最大价值为: ", r)
+
+	r = dpLoadBag1([]int{3, 2, 4, 7, 3, 1, 7}, []int{5, 6, 3, 19, 12, 4, 2}, 15)
+	fmt.Println("最大价值为: ", r)
+	r = dpLoadBag1([]int{3, 2, 4, 7}, []int{5, 6, 3, 19}, 11)
+	fmt.Println("最大价值为: ", r)
+	r = dpLoadBag1([]int{3, 2, 40, 7, 3, 1, 7}, []int{5, 6, 300, 19, 12, 4, 2}, 15)
+	fmt.Println("最大价值为: ", r)
 	return
 }
 

@@ -132,7 +132,7 @@ func main() {
 	// 	questions.TestLoadBag()
 	// 	// fmt.Println("最大价值为: ", r)
 	// })
-	// wrapTestCase(&ws, "TestLoadBag1 ", 1000, func() {
+	// wrapTestCase(&ws, "TestLoadBag1 ", 1, func() {
 	// 	questions.TestLoadBag1()
 	// 	// fmt.Println("最大价值为: ", r)
 	// })
@@ -141,6 +141,7 @@ func main() {
 	// fmt.Println(r)
 	// r = questions.TestConvertToLetterString1()
 	// fmt.Print(r)
-	questions.TestMinStickers()
-
+	// questions.TestMinStickers()
+	// questions.TestCanConstruct()
+	questions.TestLongestCommonSubsequence()
 }
