@@ -66,25 +66,42 @@ func dpLongestCommonSubsequence(text1 string, text2 string) int {
 // 执行用时：0 ms, 在所有 Go 提交中击败了100.00%的用户
 // 内存消耗：1.8 MB, 在所有 Go 提交中击败了100.00%的用户
 func longestCommonSubsequence2(text1 string, text2 string) int {
-	// x := 0
 	l1, l2 := len(text1), len(text2)
 	// 根据题目限制,用数组节省空间
 	dp := [1001]int{}
 	dp1 := [1001]int{}
 	// text1与text2一端对齐,这层循环每一次都是将text1当作text1[:i+2],去与text2比较
 	for i := 1; i <= l1; i++ {
-		// x = 0
 		for j := 1; j <= l2; j++ {
-			// temp := dp[j]
+			// 必须是在上一次完成了之前的目标串text1[:i]的基础上
 			if text1[i-1] == text2[j-1] {
-				// 必须是在上一次完成了之前的目标串text[:i]的基础上
-				// dp[j] = x + 1
-				dp[j] = dp1[j] + 1
+				dp[j] = dp[j-1] + 1
 			} else {
 				// 这一步只是通知下dp[j],上一次循环text1[i-1]已经被text2[j-1]匹配了,子序列长度增加了
 				dp[j] = base.Max(dp[j], dp[j-1])
 			}
-			// x = temp
+			// 如:text1:ziz;text2:xzx;那么text1[0]与text2[0]匹配到之后,
+			// text1进入到下一轮循环之后,gp=[0,0,1,1];gp1=[0,0,1,1]
+			// 由gp1[1]与gp1[2]比较可以看出,
+			// text2匹配完成text1本轮之前的循环,text2需要派出1个字符,
+			// gp1保留了text2完成text1的节点记录:text2的位置1;
+			// text2开始循环匹配text1[1],假设匹配成功,
+			// 在上面的判断(text1[i-1] == text2[j-1])中,是否需要加1?
+			// 1)如果是在上一次匹配成功的位置之前,是需要加1的,这表示一个不同于上一次的子序列的开头;
+			// 2)如果是在上一次匹配成功的位置之后,是需要加1的,这表示这个位置之前的位置,
+			// text2已经派出足够的字母去匹配成功了;
+			// 3)如果是在上一次匹配成功的位置上呢?如果加的话,在下一次的循环中就很明显了,
+			// text2[1]会继续匹配text1[2],而且匹配成功,这就会造成重复匹配,
+			// 所以显然,不能直接使用gp[j]++
+			// 那么如果就是要用gp[j]++,可行吗?
+			// 1)好像使判断中 && dp[j] > dp[j-1] 不就行了?这样不就找到转折点了吗?
+			// 显然过于严格,第一个字母匹配都加不了
+			// 2)又或者gp[j]=gp[j-1]+1不就行了吗?重设text1,text2:="xzx","ziz"
+			// 这个会造成text2本轮循环直接重复
+			// 3)那么直接1个flag,标识当前位置是否是上一次匹配成功的位置不就行了吗?
+			// 答案是也不行!比如：text1,text2:="zizbhb","xzxaba";对于这种就需要两个flag,
+			// 还得知道在哪里flag,可以说很难操作
+			// 综上,最长子序列研究结束,爽!
 			dp1[j] = dp[j-1]
 		}
 	}
@@ -142,19 +159,24 @@ func TestLongestCommonSubsequence() {
 		// "zizz": "xzzx",
 		// "a": "aa",
 		// "vcnwrmxc":   "pmlstotylonkvmhqjyxmnq",
-		"bmvcnwrmxcfcxabkxcvgbozmpspsbenazglyxkpibgzq": "bmpmlstotylonkvmhqjyxmnqzctonqtobahcrcbibgzgx",
-		// "mhziwb": "mhzziwb",
-		// "bsbininm":           "jmjkbkjkv",
+		// "bmvcnwrmxcfcxabkxcvgbozmpspsbenazglyxkpibgzq": "bmpmlstotylonkvmhqjyxmnqzctonqtobahcrcbibgzgx",
+		// "mhziwb":   "mhzziwb",
+		// "bsb": "b",
 		// "mhunuzqrkzsnidwbun": "szulspmhwpazoxijwbq",
 		// "yzyn":  "zxyzm",
 		// "yy":    "zxyzm",
-		"abcba": "abcbcba",
+		// "abcba":  "abcbcb",
+		// "abcxba": "abcxbcxb",
+		// "bcb": "bcbcb",
+		// "ziz": "xzx",
+		// "xzx":    "ziz",
+		"zizbhb": "xzxaba",
 	}
 	for k, v := range params {
 		// r := longestCommonSubsequence(k, v)
 		// r := dpLongestCommonSubsequence(k, v)
-		// r := longestCommonSubsequence2(k, v)
-		r := longestCommonSubsequence3(k, v)
+		r := longestCommonSubsequence2(k, v)
+		// r := longestCommonSubsequence3(k, v)
 		fmt.Println(r)
 	}
 
