@@ -1,8 +1,8 @@
 package main
 
 import (
+	"duan1v/al-go-rithm/questions"
 	"fmt"
-	"questions"
 	"sync"
 	"time"
 )

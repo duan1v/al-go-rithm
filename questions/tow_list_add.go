@@ -1,6 +1,6 @@
 package questions
 
-import "base"
+import "duan1v/al-go-rithm/base"
 
 // @url: https://leetcode.cn/problems/add-two-numbers/
 // @brief: 已知两个单链表的节点,输出规则是:2->3->4 + 2->5->6->9 = 4->8->0->0->1

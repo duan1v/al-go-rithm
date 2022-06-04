@@ -1,7 +1,7 @@
 package questions
 
 import (
-	"base"
+	"duan1v/al-go-rithm/base"
 	"fmt"
 	"sort"
 	"strings"

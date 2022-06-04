@@ -1,6 +1,6 @@
 package questions
 
-import "base"
+import "duan1v/al-go-rithm/base"
 
 // @url: https://leetcode.cn/problems/merge-two-sorted-lists/
 // @brief: 输入：l1 = [1,2,4], l2 = [1,3,4] 输出：[1,1,2,3,4,4]

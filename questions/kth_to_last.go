@@ -1,8 +1,9 @@
 package questions
 
 import (
-	"base"
 	"fmt"
+
+	"duan1v/al-go-rithm/base"
 )
 
 // @url: https://leetcode.cn/problems/kth-node-from-end-of-list-lcci/

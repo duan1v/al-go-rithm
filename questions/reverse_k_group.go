@@ -1,7 +1,7 @@
 package questions
 
 import (
-	"base"
+	"duan1v/al-go-rithm/base"
 )
 
 // @url: https://leetcode.cn/problems/reverse-nodes-in-k-group/
